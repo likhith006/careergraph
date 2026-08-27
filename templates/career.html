@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ career.name }} | CareerGraph</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://unpkg.com/cytoscape@3.30.4/dist/cytoscape.min.js"></script>
+</head>
+
+<body data-career="{{ career.name }}">
+
+<header class="navbar">
+
+    <a href="{{ url_for('home') }}" class="logo">
+        CareerGraph
+    </a>
+
+    <a href="{{ url_for('home') }}" class="back-link">
+        ← All Careers
+    </a>
+
+</header>
+
+
+<main class="container">
+
+    <section class="career-header">
+
+        <span class="badge">CAREER PATH</span>
+
+        <h1>{{ career.name }}</h1>
+
+        <p>{{ career.description }}</p>
+
+    </section>
+
+
+    <!-- Skills -->
+
+    <section class="content-section">
+
+        <div class="section-heading">
+            <span class="section-number">01</span>
+
+            <div>
+                <h2>Required Skills</h2>
+                <p>Skills connected to this career.</p>
+            </div>
+        </div>
+
+
+        <div class="skill-grid">
+
+            {% for skill in skills %}
+
+            <div class="skill-card">
+
+                <div class="skill-top">
+                    <h3>{{ skill.name }}</h3>
+
+                    <span class="level">
+                        {{ skill.level }}
+                    </span>
+                </div>
+
+                <p>{{ skill.category }}</p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- Courses -->
+
+    <section class="content-section">
+
+        <div class="section-heading">
+            <span class="section-number">02</span>
+
+            <div>
+                <h2>Recommended Courses</h2>
+                <p>Courses connected through required skills.</p>
+            </div>
+        </div>
+
+
+        <div class="course-grid">
+
+            {% for course in courses %}
+
+            <div class="course-card">
+
+                <span class="course-provider">
+                    {{ course.provider }}
+                </span>
+
+                <h3>{{ course.name }}</h3>
+
+                <span class="level">
+                    {{ course.level }}
+                </span>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- Projects -->
+
+    <section class="content-section">
+
+        <div class="section-heading">
+            <span class="section-number">03</span>
+
+            <div>
+                <h2>Project Ideas</h2>
+                <p>Projects connected to this career.</p>
+            </div>
+        </div>
+
+
+        <div class="project-grid">
+
+            {% for project in projects %}
+
+            <div class="project-card">
+
+                <div class="project-top">
+
+                    <h3>{{ project.name }}</h3>
+
+                    <span class="level">
+                        {{ project.difficulty }}
+                    </span>
+
+                </div>
+
+                <p>{{ project.description }}</p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- Related Careers -->
+
+    <section class="content-section">
+
+        <div class="section-heading">
+            <span class="section-number">04</span>
+
+            <div>
+                <h2>Related Careers</h2>
+                <p>Explore nearby career paths in the graph.</p>
+            </div>
+
+        </div>
+
+
+        <div class="related-grid">
+
+            {% for related_career in related %}
+
+            <a
+                href="{{ url_for('career', career_name=related_career.name) }}"
+                class="related-card"
+            >
+
+                <h3>{{ related_career.name }}</h3>
+
+                <span>Explore →</span>
+
+            </a>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- Shared Skills -->
+
+    <section class="content-section">
+
+        <div class="section-heading">
+
+            <span class="section-number">05</span>
+
+            <div>
+                <h2>Career Connections</h2>
+                <p>Careers connected through shared skills.</p>
+            </div>
+
+        </div>
+
+
+        <div class="path-list">
+
+            {% for path in career_paths %}
+
+            <div class="path-card">
+
+                <strong>{{ path.name }}</strong>
+
+                <div class="shared-skills">
+
+                    {% for skill in path.shared_skills %}
+
+                    <span>{{ skill }}</span>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+<section class="content-section">
+
+    <div class="section-heading">
+
+        <span class="section-number">06</span>
+
+        <div>
+            <h2>Career Graph</h2>
+            <p>
+                Visualize how this career connects to skills,
+                projects, and related careers.
+            </p>
+        </div>
+
+    </div>
+
+    <div id="career-graph"></div>
+    <div class="graph-legend">
+
+    <div class="legend-item">
+        <span class="legend-dot career-dot"></span>
+        Career
+    </div>
+
+    <div class="legend-item">
+        <span class="legend-dot skill-dot"></span>
+        Skill
+    </div>
+
+    <div class="legend-item">
+        <span class="legend-dot project-dot"></span>
+        Project
+    </div>
+
+</div>
+
+</section>
+    </section>
+
+</main>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

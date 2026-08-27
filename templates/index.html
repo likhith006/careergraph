@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerGraph</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">CareerGraph</div>
+
+    <div class="nav-text">
+        Explore careers through connected skills
+    </div>
+</header>
+
+
+<main class="container">
+
+    <section class="hero">
+
+        <span class="badge">GRAPH-POWERED CAREER EXPLORER</span>
+
+        <h1>Find your path to the right career.</h1>
+
+        <p>
+            Explore the skills, courses, projects, and related careers
+            connected to your career goals.
+        </p>
+
+    </section>
+
+
+<section class="career-section">
+
+    <div class="career-section-header">
+        <div>
+            <h2>Explore Careers</h2>
+            <p>Search and explore available career paths.</p>
+        </div>
+
+       <div class="search-box">
+
+    <input
+        type="text"
+        id="career-search"
+        placeholder="Search careers..."
+        autocomplete="off"
+    >
+
+    <div id="search-suggestions" class="search-suggestions"></div>
+
+</div>
+    </div>
+
+        <div class="career-grid">
+
+            {% for career in careers %}
+
+           <a
+    href="{{ url_for('career', career_name=career.name) }}"
+    class="career-card"
+    data-career-name="{{ career.name }}"
+>
+
+                <div class="card-icon">→</div>
+
+                <h3>{{ career.name }}</h3>
+
+                <p>{{ career.description }}</p>
+
+                <span class="explore">
+                    Explore career →
+                </span>
+
+            </a>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

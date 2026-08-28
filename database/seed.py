@@ -1,8 +1,8 @@
-from database.connection import db
+from database.connection import get_database
 
 
 def seed_database():
-    with db.driver.session() as session:
+    with get_database().driver.session() as session:
 
         # -------------------------
         # Careers
@@ -269,4 +269,4 @@ def seed_database():
 
 if __name__ == "__main__":
     seed_database()
-    db.close()
+    get_database().close()

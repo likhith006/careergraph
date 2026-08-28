@@ -1,7 +1,7 @@
-from database.connection import db
+from database.connection import get_database
 
-message = db.verify_connection()
+message = get_database().verify_connection()
 
 print(message)
 
-db.close()
+get_database().close()

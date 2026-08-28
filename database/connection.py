@@ -11,6 +11,11 @@ COGNODB_PASSWORD = os.getenv("COGNODB_PASSWORD")
 
 class Database:
     def __init__(self):
+        if not all((COGNODB_URI, COGNODB_USERNAME, COGNODB_PASSWORD)):
+            raise RuntimeError(
+                "COGNODB_URI, COGNODB_USERNAME, and COGNODB_PASSWORD must be configured."
+            )
+
         self.driver = GraphDatabase.driver(
             COGNODB_URI,
             auth=(COGNODB_USERNAME, COGNODB_PASSWORD)
@@ -29,4 +34,13 @@ class Database:
             return f"Connection failed: {e}"
 
 
-db = Database()
+db = None
+
+
+def get_database():
+    global db
+
+    if db is None:
+        db = Database()
+
+    return db

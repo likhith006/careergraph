@@ -1,4 +1,4 @@
-from database.connection import db
+from database.connection import get_database
 
 
 def create_constraints():
@@ -25,7 +25,7 @@ def create_constraints():
         """
     ]
 
-    with db.driver.session() as session:
+    with get_database().driver.session() as session:
         for query in queries:
             session.run(query)
 
@@ -33,4 +33,4 @@ def create_constraints():
 if __name__ == "__main__":
     create_constraints()
     print("Database constraints created successfully.")
-    db.close()
+    get_database().close()

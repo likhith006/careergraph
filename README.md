@@ -17,6 +17,32 @@ The application helps users explore career paths through connected skills, cours
 
 ---
 
+## Deploy to Vercel
+
+1. Import this repository into Vercel. The included `vercel.json` routes requests to the Flask app in `app.py`.
+2. Add these environment variables in the Vercel project settings for every environment you deploy:
+
+	- `COGNODB_URI`
+	- `COGNODB_USERNAME`
+	- `COGNODB_PASSWORD`
+
+3. Deploy. The Neo4j connection is created lazily when a request needs database data, so Vercel can import the app during its build step.
+
+Before the first deployment, create the database constraints and seed data from a machine that can reach the database:
+
+```powershell
+.\venv\Scripts\python.exe -m database.schema
+.\venv\Scripts\python.exe -m database.seed
+```
+
+For local development, put the same variables in a `.env` file and run:
+
+```powershell
+.\venv\Scripts\python.exe app.py
+```
+
+---
+
 ## Features
 
 - Career exploration

@@ -1,4 +1,4 @@
-from database.connection import db
+from database.connection import get_database
 
 
 def get_all_careers():
@@ -8,7 +8,7 @@ def get_all_careers():
     ORDER BY c.name
     """
 
-    with db.driver.session() as session:
+    with get_database().driver.session() as session:
         result = session.run(query)
         return [record.data() for record in result]
 
@@ -19,7 +19,7 @@ def get_career(career_name):
     RETURN c.name AS name, c.description AS description
     """
 
-    with db.driver.session() as session:
+    with get_database().driver.session() as session:
         result = session.run(query, career_name=career_name)
         record = result.single()
 
@@ -38,7 +38,7 @@ def get_required_skills(career_name):
     ORDER BY s.name
     """
 
-    with db.driver.session() as session:
+    with get_database().driver.session() as session:
         result = session.run(query, career_name=career_name)
         return [record.data() for record in result]
 
@@ -62,7 +62,7 @@ def get_courses_for_career(career_name):
     ORDER BY course.name
     """
 
-    with db.driver.session() as session:
+    with get_database().driver.session() as session:
         result = session.run(query, career_name=career_name)
         return [record.data() for record in result]
 
@@ -78,7 +78,7 @@ def get_projects_for_career(career_name):
     ORDER BY p.name
     """
 
-    with db.driver.session() as session:
+    with get_database().driver.session() as session:
         result = session.run(query, career_name=career_name)
         return [record.data() for record in result]
 
@@ -93,7 +93,7 @@ def get_related_careers(career_name):
     ORDER BY related.name
     """
 
-    with db.driver.session() as session:
+    with get_database().driver.session() as session:
         result = session.run(query, career_name=career_name)
         return [record.data() for record in result]
 
@@ -119,7 +119,7 @@ def get_career_path(career_name):
     ORDER BY c2.name
     """
 
-    with db.driver.session() as session:
+    with get_database().driver.session() as session:
         result = session.run(query, career_name=career_name)
         return [record.data() for record in result]
 
@@ -140,7 +140,7 @@ def get_career_graph(career_name):
         labels(n)[0] AS target_type
     """
 
-    with db.driver.session() as session:
+    with get_database().driver.session() as session:
         result = session.run(query, career_name=career_name)
 
         return [record.data() for record in result]

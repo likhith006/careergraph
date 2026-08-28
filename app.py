@@ -1,3 +1,5 @@
+from urllib.parse import unquote
+
 from flask import Flask, render_template, request, jsonify
 
 from database.queries import (
@@ -28,6 +30,7 @@ def home():
 @app.route("/career/<career_name>")
 def career(career_name):
     try:
+        career_name = unquote(career_name)
         career_data = get_career(career_name)
 
         if not career_data:
@@ -77,6 +80,7 @@ def internal_error(error):
 @app.route("/api/career/<career_name>/graph")
 def career_graph_api(career_name):
     try:
+        career_name = unquote(career_name)
         graph_data = get_career_graph(career_name)
 
         return jsonify(graph_data)
